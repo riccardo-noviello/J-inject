@@ -2,6 +2,7 @@ package com.riccardonoviello.commons.jinject.core;
 
 import com.riccardonoviello.commons.jinject.annotations.ComponentScan;
 import com.riccardonoviello.commons.jinject.annotations.PropertiesScan;
+import java.lang.reflect.ParameterizedType;
 
 /**
  * This class loads the Application context and provides it.
@@ -9,12 +10,33 @@ import com.riccardonoviello.commons.jinject.annotations.PropertiesScan;
  * @author RNOVI
  *
  */
-public class Application {
+public class Application<T> {
 
 	private static ApplicationContext applicationContext = null;
+	private Class<T> typeParameterClass;
+	{
+		initClazz();
+	}
+
+
+	// Constructor
+	public Application(){
+		this.startApp();
+	}
+	
 
 	/**
+	 * initialise the private field typeParameterClass with the current Class<T> type parameter
+	 */
+	@SuppressWarnings("unchecked")
+	private void initClazz() {
+		this.typeParameterClass = (Class<T>) ((ParameterizedType) this
+				.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}
+	
+	/**
 	 * Returns the current Application Context
+	 * 
 	 * @return
 	 */
 	public static ApplicationContext getContext() {
@@ -24,10 +46,11 @@ public class Application {
 	/**
 	 * Start the Application by initialising the Application context
 	 */
-	public static void startApp(Class<?> clazz) {
+	public void startApp() {
 		// init application context
 		try {
-			applicationContext = new ApplicationContext(getComponentScan(clazz), getPropertiesScan(clazz));
+			applicationContext = new ApplicationContext(
+					getComponentScan(typeParameterClass), getPropertiesScan(typeParameterClass));
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -40,6 +63,7 @@ public class Application {
 
 	/**
 	 * Get the Properties Scan values defined in the class' Annotation
+	 * 
 	 * @param clazz
 	 * @return
 	 */
@@ -50,6 +74,7 @@ public class Application {
 
 	/**
 	 * Get the Component Scan value defined in the class' Annotation
+	 * 
 	 * @param clazz
 	 * @return
 	 */
