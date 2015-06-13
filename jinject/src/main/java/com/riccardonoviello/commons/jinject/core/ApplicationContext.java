@@ -4,10 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.riccardonoviello.commons.jinject.annotations.Inject;
 
@@ -16,7 +16,7 @@ public class ApplicationContext {
 	private String scanPackage;
 	private String[] propertiesFiles;
 
-	private Map<Class<?>, Object> components = new HashMap<Class<?>, Object>();
+	private Map<Class<?>, Object> components = new ConcurrentHashMap<Class<?>, Object>();
 
 	private Properties props = new Properties();
 

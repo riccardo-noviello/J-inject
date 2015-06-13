@@ -14,13 +14,11 @@ public class Application<T> {
 
 	private static ApplicationContext applicationContext = null;
 	private Class<T> typeParameterClass;
-	{
-		initClazz();
-	}
 
 
 	// Constructor
 	public Application(){
+		initClazz();
 		this.startApp();
 	}
 	
