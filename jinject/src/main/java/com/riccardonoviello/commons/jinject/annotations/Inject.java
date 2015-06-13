@@ -1,4 +1,4 @@
-package com.riccardonoviello.commons.jinject.core.jinject.annotations;
+package com.riccardonoviello.commons.jinject.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

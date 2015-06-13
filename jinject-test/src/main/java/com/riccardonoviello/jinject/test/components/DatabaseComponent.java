@@ -1,6 +1,6 @@
 package com.riccardonoviello.jinject.test.components;
 
-import com.riccardonoviello.commons.jinject.core.jinject.annotations.Inject;
+import com.riccardonoviello.commons.jinject.annotations.Inject;
 
 public class DatabaseComponent {
 	

@@ -1,8 +1,8 @@
 package com.riccardonoviello.jinject.test;
 
 
-import com.riccardonoviello.commons.jinject.core.jinject.annotations.ComponentScan;
-import com.riccardonoviello.commons.jinject.core.jinject.annotations.PropertiesScan;
+import com.riccardonoviello.commons.jinject.annotations.ComponentScan;
+import com.riccardonoviello.commons.jinject.annotations.PropertiesScan;
 import com.riccardonoviello.commons.jinject.core.Application;
 import com.riccardonoviello.jinject.test.components.HelloComponent;
 

@@ -1,4 +1,4 @@
-package com.riccardonoviello.commons.jinject.core.jinject.annotations;
+package com.riccardonoviello.commons.jinject.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ComponentScan {
+public @interface PropertiesScan {
 
-	String value();
+	String[] value();
 
 }

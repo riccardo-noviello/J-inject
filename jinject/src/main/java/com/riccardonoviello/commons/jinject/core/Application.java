@@ -1,7 +1,7 @@
 package com.riccardonoviello.commons.jinject.core;
 
-import com.riccardonoviello.commons.jinject.core.jinject.annotations.ComponentScan;
-import com.riccardonoviello.commons.jinject.core.jinject.annotations.PropertiesScan;
+import com.riccardonoviello.commons.jinject.annotations.ComponentScan;
+import com.riccardonoviello.commons.jinject.annotations.PropertiesScan;
 
 /**
  * This class loads the Application context and provides it.

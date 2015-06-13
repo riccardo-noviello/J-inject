@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import com.riccardonoviello.commons.jinject.core.jinject.annotations.Inject;
+import com.riccardonoviello.commons.jinject.annotations.Inject;
 
 public class ApplicationContext {
 
