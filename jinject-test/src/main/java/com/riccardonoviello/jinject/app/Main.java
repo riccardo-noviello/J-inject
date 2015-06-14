@@ -1,12 +1,12 @@
-package com.riccardonoviello.jinject.test;
+package com.riccardonoviello.jinject.app;
 
 import com.riccardonoviello.commons.jinject.annotations.Inject;
-import com.riccardonoviello.jinject.test.components.HelloComponent;
+import com.riccardonoviello.jinject.app.service.PersonService;
 
 public class Main{
 	
 	@Inject
-	static HelloComponent comp;
+	static PersonService personService;
 	
 	public static void main(String[] args){
 		
@@ -14,7 +14,7 @@ public class Main{
 		MyApp myApp = new MyApp();
 		
 		// Test Application
-		comp.doSomething();
+		personService.savePerson();
 
 	}
 }

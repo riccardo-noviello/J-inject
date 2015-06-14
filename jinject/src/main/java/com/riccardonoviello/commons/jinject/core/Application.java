@@ -47,7 +47,7 @@ public class Application<T> {
 	public void startApp() {
 		// init application context
 		try {
-			applicationContext = new ApplicationContext(
+			applicationContext = ApplicationContext.getInstance(
 					getComponentScan(typeParameterClass), getPropertiesScan(typeParameterClass));
 
 		} catch (IllegalArgumentException e) {
@@ -76,7 +76,7 @@ public class Application<T> {
 	 * @param clazz
 	 * @return
 	 */
-	private static String getComponentScan(Class<?> clazz) {
+	private static String[] getComponentScan(Class<?> clazz) {
 		return clazz.getAnnotation(ComponentScan.class).value();
 	}
 

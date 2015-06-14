@@ -4,22 +4,40 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.riccardonoviello.commons.jinject.annotations.Inject;
 
 public class ApplicationContext {
 
-	private String scanPackage;
+	private String[] scanPackages;
 	private String[] propertiesFiles;
 
-	private Map<Class<?>, Object> components = new ConcurrentHashMap<Class<?>, Object>();
+	private Map<Class<?>, Object> components = new HashMap<Class<?>, Object>();
 
 	private Properties props = new Properties();
-
+	
+	private static ApplicationContext instance = null;
+	
+	
+	/**
+	 * 
+	 * @param _scanPackage
+	 * @param _propertiesFiles
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 */
+	public static ApplicationContext getInstance(String[] _scanPackages, String[] _propertiesFiles) throws IllegalArgumentException, IllegalAccessException, InstantiationException{
+		return (instance != null) ? instance : new ApplicationContext(_scanPackages, _propertiesFiles);
+	}
+	
+	
 	/**
 	 * Application Context constructor
 	 * 
@@ -34,14 +52,18 @@ public class ApplicationContext {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	public ApplicationContext(String _scanPackage, String[] _propertiesFiles) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
+	private ApplicationContext(String[] _scanPackages, String[] _propertiesFiles) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
 
-		this.scanPackage = _scanPackage;
+		this.scanPackages = _scanPackages;
 		this.propertiesFiles = _propertiesFiles;
 
 		loadProperties();
 
-		List<Class<?>> classes = ClassFinder.find(scanPackage);
+		List<Class<?>> classes = new ArrayList<Class<?>>();
+		
+		for (String pkg : scanPackages){
+			classes.addAll(ClassFinder.find(pkg));
+		}
 
 		for (Class<?> c : classes) {
 
@@ -123,7 +145,9 @@ public class ApplicationContext {
 	 * @throws InstantiationException
 	 */
 	private Object addInstanceToMap(Class<?> type) throws IllegalAccessException, InstantiationException {
-		components.put(type, type.newInstance());
+		if (type != null){
+			components.put(type, type.newInstance());
+		}
 		return components.get(type);
 	}
 

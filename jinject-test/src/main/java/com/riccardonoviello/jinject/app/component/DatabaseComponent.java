@@ -1,4 +1,4 @@
-package com.riccardonoviello.jinject.test.components;
+package com.riccardonoviello.jinject.app.component;
 
 import com.riccardonoviello.commons.jinject.annotations.Inject;
 
