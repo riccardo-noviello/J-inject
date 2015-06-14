@@ -27,7 +27,7 @@ public class Application<T> {
 	 * initialise the private field typeParameterClass with the current Class<T> type parameter
 	 */
 	@SuppressWarnings("unchecked")
-	private void initClazz() {
+	private final void initClazz() {
 		this.typeParameterClass = (Class<T>) ((ParameterizedType) this
 				.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
@@ -37,14 +37,14 @@ public class Application<T> {
 	 * 
 	 * @return
 	 */
-	public static ApplicationContext getContext() {
+	public final static ApplicationContext getContext() {
 		return applicationContext;
 	}
 
 	/**
 	 * Start the Application by initialising the Application context
 	 */
-	public void startApp() {
+	public final void startApp() {
 		// init application context
 		try {
 			applicationContext = ApplicationContext.getInstance(
@@ -65,7 +65,7 @@ public class Application<T> {
 	 * @param clazz
 	 * @return
 	 */
-	private static String[] getPropertiesScan(Class<?> clazz) {
+	private static final String[] getPropertiesScan(Class<?> clazz) {
 		return clazz.getAnnotation(PropertiesScan.class).value();
 
 	}
@@ -76,7 +76,7 @@ public class Application<T> {
 	 * @param clazz
 	 * @return
 	 */
-	private static String[] getComponentScan(Class<?> clazz) {
+	private static final String[] getComponentScan(Class<?> clazz) {
 		return clazz.getAnnotation(ComponentScan.class).value();
 	}
 

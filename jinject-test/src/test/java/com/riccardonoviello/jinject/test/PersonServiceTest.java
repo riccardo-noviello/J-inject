@@ -8,7 +8,7 @@ import com.riccardonoviello.jinject.app.service.PersonService;
 public class PersonServiceTest {
 
 	@Inject
-	static PersonService service;
+	PersonService service;
 
 	MyTestApp myApp = new MyTestApp();
 		

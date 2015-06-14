@@ -68,14 +68,14 @@ public class ApplicationContext {
 		for (Class<?> c : classes) {
 
 			// find all fields to inject
-			for (Field f : c.getDeclaredFields()) {
-				if (f.isAnnotationPresent(Inject.class)) {
+			for (Field field : c.getDeclaredFields()) {
+				if (field.isAnnotationPresent(Inject.class)) {
 
 					// make the field accessible
-					f.setAccessible(true);
+					field.setAccessible(true);
 
 					// Inject properties if exist
-					String prop = f.getAnnotation(Inject.class).property();
+					String prop = field.getAnnotation(Inject.class).property();
 
 					Object valueToInject = null;
 
@@ -84,12 +84,13 @@ public class ApplicationContext {
 						valueToInject = props.get(prop);
 					} else {
 						// Set a new instance of the Class, as value to inject
-						valueToInject = getComponentByClassName(f.getType());
+						valueToInject = getComponentByClassName(field.getType());
 					}
 
 					// need to inject the new instance of a field into the
 					// component
-					f.set(getComponentByClassName(c), valueToInject);
+					Object object = getComponentByClassName(c);
+					field.set(object, valueToInject);
 				}
 			}
 		}
@@ -133,7 +134,7 @@ public class ApplicationContext {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	private Object getComponentByClassName(Class<?> type) throws IllegalAccessException, InstantiationException {
+	public Object getComponentByClassName(Class<?> type) throws IllegalAccessException, InstantiationException {
 		return (components.get(type) != null) ? components.get(type) : addInstanceToMap(type);
 	}
 
@@ -144,7 +145,7 @@ public class ApplicationContext {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	private Object addInstanceToMap(Class<?> type) throws IllegalAccessException, InstantiationException {
+	public Object addInstanceToMap(Class<?> type) throws IllegalAccessException, InstantiationException {
 		if (type != null){
 			components.put(type, type.newInstance());
 		}
@@ -159,6 +160,14 @@ public class ApplicationContext {
 	 */
 	public <T> T getComponent(Class<T> clazz) {
 		return (T) this.components.get(clazz);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getComponentsSize(){
+		return this.components.size();
 	}
 
 }
