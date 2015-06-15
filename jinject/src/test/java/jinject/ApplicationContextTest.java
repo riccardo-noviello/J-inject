@@ -2,6 +2,9 @@ package jinject;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.logging.Logger;
+
 import jinject.testpackage.Car;
 import jinject.testpackage.Person;
 import jinject.testpackage2.House;
@@ -13,6 +16,8 @@ import org.junit.Test;
 import com.riccardonoviello.commons.jinject.core.ApplicationContext;
 
 public class ApplicationContextTest {
+	
+	Logger logger = Logger.getLogger(ApplicationContextTest.class.getName());
 
 	String[] packages = {"jinject.testpackage"};
 	int ncomponents = 2;
@@ -25,7 +30,7 @@ public class ApplicationContextTest {
 			context = ApplicationContext.getInstance(packages, properties);
 		} catch (IllegalArgumentException | IllegalAccessException
 				| InstantiationException e) {
-			e.printStackTrace();
+			logger.severe("Error Loading Application Context");
 		}
 	}
 	
@@ -45,7 +50,7 @@ public class ApplicationContextTest {
 			assertTrue(context.getComponentsSize()==ncomponents);
 			
 		} catch (IllegalAccessException | InstantiationException e) {
-			e.printStackTrace();
+			logger.severe("Error adding instance of class to App Context");
 		}
 		
 	}
@@ -63,7 +68,7 @@ public class ApplicationContextTest {
 			
 			
 		} catch (IllegalAccessException | InstantiationException e) {
-			e.printStackTrace();
+			logger.severe("Error adding instance of class to App Context");
 		}
 		
 	}
@@ -79,7 +84,7 @@ public class ApplicationContextTest {
 			assertTrue(context.getComponentsSize()==(ncomponents+1));
 			
 		} catch (IllegalAccessException | InstantiationException e) {
-			e.printStackTrace();
+			logger.severe("Error adding instance of class to App Context");
 		}
 		
 	}

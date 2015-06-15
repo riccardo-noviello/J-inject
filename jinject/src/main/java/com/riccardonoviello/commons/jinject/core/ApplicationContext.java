@@ -121,13 +121,13 @@ public class ApplicationContext {
 					props.load(input);
 
 				} catch (IOException ex) {
-					ex.printStackTrace();
+					logger.severe("Error Loading property file "+file);
 				} finally {
 					if (input != null) {
 						try {
 							input.close();
 						} catch (IOException e) {
-							e.printStackTrace();
+							logger.severe("Error Closing property file "+file);
 						}
 					}
 				}
