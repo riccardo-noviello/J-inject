@@ -10,10 +10,7 @@ public class PersonDao {
 	FileService fileService;
 	
 	private String filename = "persons.txt";
-	
-	public PersonDao(){
-		System.out.println("contructing PersonDao");
-	}
+
 	
 	public void savePerson(){		
 		

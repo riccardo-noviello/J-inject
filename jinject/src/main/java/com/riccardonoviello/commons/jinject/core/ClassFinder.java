@@ -3,7 +3,9 @@ package com.riccardonoviello.commons.jinject.core;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -27,11 +29,11 @@ public class ClassFinder {
 			throw new IllegalArgumentException(String.format(BAD_PACKAGE_ERROR, scannedPath, scannedPackage));
 		}
 		File scannedDir = new File(scannedUrl.getFile());
-		List<Class<?>> classes = new ArrayList<Class<?>>();
+		Set<Class<?>> classes = new HashSet<Class<?>>();
 		for (File file : scannedDir.listFiles()) {
 			classes.addAll(find(file, scannedPackage));
 		}
-		return classes;
+		return new ArrayList<Class<?>>(classes);
 	}
 
 	private static List<Class<?>> find(File file, String scannedPackage) {

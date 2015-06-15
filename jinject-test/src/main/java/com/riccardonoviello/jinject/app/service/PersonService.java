@@ -13,10 +13,7 @@ public class PersonService {
 	
 	@Inject
 	FileService fileService;
-		
-	public PersonService(){
-		System.out.println("contructing PersonService");
-	}
+	
 
 	public void savePerson(){
 		personDao.savePerson();

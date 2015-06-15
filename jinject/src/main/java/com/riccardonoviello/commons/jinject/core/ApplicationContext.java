@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import com.riccardonoviello.commons.jinject.annotations.Inject;
 
@@ -21,7 +22,9 @@ public class ApplicationContext {
 
 	private Properties props = new Properties();
 	
-	private static ApplicationContext instance = null;
+	private static ApplicationContext instance = null; // we only allow one instance at the time
+	
+	private static final Logger logger = Logger.getLogger(ApplicationContext.class.getName());
 	
 	
 	/**
@@ -34,7 +37,10 @@ public class ApplicationContext {
 	 * @throws InstantiationException
 	 */
 	public static ApplicationContext getInstance(String[] _scanPackages, String[] _propertiesFiles) throws IllegalArgumentException, IllegalAccessException, InstantiationException{
-		return (instance != null) ? instance : new ApplicationContext(_scanPackages, _propertiesFiles);
+		if (instance == null) {
+			instance = new ApplicationContext(_scanPackages, _propertiesFiles);		
+		}		
+		return instance;
 	}
 	
 	
@@ -53,24 +59,26 @@ public class ApplicationContext {
 	 * @throws InstantiationException
 	 */
 	private ApplicationContext(String[] _scanPackages, String[] _propertiesFiles) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
-
+		logger.info("*** Starting Application Context *** ");
 		this.scanPackages = _scanPackages;
 		this.propertiesFiles = _propertiesFiles;
 
 		loadProperties();
 
 		List<Class<?>> classes = new ArrayList<Class<?>>();
-		
 		for (String pkg : scanPackages){
 			classes.addAll(ClassFinder.find(pkg));
 		}
+		logger.info("Loading "+classes.size()+" classes...");
 
 		for (Class<?> c : classes) {
+			
+			logger.info("Examining class "+c.getName());
 
 			// find all fields to inject
 			for (Field field : c.getDeclaredFields()) {
 				if (field.isAnnotationPresent(Inject.class)) {
-
+					
 					// make the field accessible
 					field.setAccessible(true);
 
@@ -91,6 +99,8 @@ public class ApplicationContext {
 					// component
 					Object object = getComponentByClassName(c);
 					field.set(object, valueToInject);
+					
+					logger.info("Injected field "+field);
 				}
 			}
 		}

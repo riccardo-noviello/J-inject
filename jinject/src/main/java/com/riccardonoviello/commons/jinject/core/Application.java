@@ -2,7 +2,9 @@ package com.riccardonoviello.commons.jinject.core;
 
 import com.riccardonoviello.commons.jinject.annotations.ComponentScan;
 import com.riccardonoviello.commons.jinject.annotations.PropertiesScan;
+
 import java.lang.reflect.ParameterizedType;
+import java.util.logging.Logger;
 
 /**
  * This class loads the Application context and provides it.
@@ -11,15 +13,16 @@ import java.lang.reflect.ParameterizedType;
  *
  */
 public class Application<T> {
+	
+	private Logger logger = Logger.getLogger(Application.class.getName());
 
-	private static ApplicationContext applicationContext = null;
 	private Class<T> typeParameterClass;
 
 
 	// Constructor
 	public Application(){
 		initClazz();
-		this.startApp();
+		getContext();
 	}
 	
 
@@ -37,27 +40,21 @@ public class Application<T> {
 	 * 
 	 * @return
 	 */
-	public final static ApplicationContext getContext() {
-		return applicationContext;
-	}
-
-	/**
-	 * Start the Application by initialising the Application context
-	 */
-	public final void startApp() {
-		// init application context
+	public final ApplicationContext getContext() {
 		try {
-			applicationContext = ApplicationContext.getInstance(
+			return ApplicationContext.getInstance(
 					getComponentScan(typeParameterClass), getPropertiesScan(typeParameterClass));
 
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			logger.severe(e.toString());
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			logger.severe(e.toString());
 		} catch (InstantiationException e) {
-			e.printStackTrace();
+			logger.severe(e.toString());
 		}
+		return null;
 	}
+
 
 	/**
 	 * Get the Properties Scan values defined in the class' Annotation
@@ -65,7 +62,7 @@ public class Application<T> {
 	 * @param clazz
 	 * @return
 	 */
-	private static final String[] getPropertiesScan(Class<?> clazz) {
+	private final String[] getPropertiesScan(Class<?> clazz) {
 		return clazz.getAnnotation(PropertiesScan.class).value();
 
 	}
@@ -76,7 +73,7 @@ public class Application<T> {
 	 * @param clazz
 	 * @return
 	 */
-	private static final String[] getComponentScan(Class<?> clazz) {
+	private final String[] getComponentScan(Class<?> clazz) {
 		return clazz.getAnnotation(ComponentScan.class).value();
 	}
 
