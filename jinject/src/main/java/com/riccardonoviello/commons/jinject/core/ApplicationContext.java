@@ -144,8 +144,9 @@ public class ApplicationContext {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	public Object getComponentByClassName(Class<?> type) throws IllegalAccessException, InstantiationException {
-		return (components.get(type) != null) ? components.get(type) : addInstanceToMap(type);
+	public <T>T getComponentByClassName(Class<T> type) throws IllegalAccessException, InstantiationException {
+		
+		return (T) ((components.get(type) != null) ? components.get(type) : addInstanceToMap(type));
 	}
 
 	/**
@@ -155,11 +156,11 @@ public class ApplicationContext {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	public Object addInstanceToMap(Class<?> type) throws IllegalAccessException, InstantiationException {
-		if (type != null){
-			components.put(type, type.newInstance());
+	public <T>T addInstanceToMap(Class<?> clazz) throws IllegalAccessException, InstantiationException {
+		if (clazz != null){
+			components.put(clazz, clazz.newInstance());
 		}
-		return components.get(type);
+		return (T) components.get(clazz);
 	}
 
 	/**

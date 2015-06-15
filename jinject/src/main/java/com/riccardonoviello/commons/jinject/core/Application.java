@@ -76,5 +76,16 @@ public class Application<T> {
 	private final String[] getComponentScan(Class<?> clazz) {
 		return clazz.getAnnotation(ComponentScan.class).value();
 	}
+	
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 * @throws InstantiationException 
+	 * @throws IllegalAccessException 
+	 */
+	public <T>T getComponent(Class<T> clazz) throws IllegalAccessException, InstantiationException {
+		return this.getContext().getComponentByClassName(clazz);
+	}	
 
 }
